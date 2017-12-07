@@ -1,24 +1,24 @@
-const webpack = require('webpack');
-const merge = require('webpack-merge');
-const path = require('path');
+const webpack = require('webpack')
+const merge = require('webpack-merge')
+const path = require('path')
 
 var config = {
   output: {
-    path: path.resolve(__dirname + '/dist/'),
+    path: path.resolve(`${__dirname}/dist/`)
   },
   module: {
     rules: [
       {
         test: /\.css$/,
-        use: ['vue-style-loader', 'css-loader'],
+        use: ['vue-style-loader', 'css-loader']
       },
       {
         test: /\.scss$/,
-        use: ['vue-style-loader', 'css-loader', 'sass-loader'],
+        use: ['vue-style-loader', 'css-loader', 'sass-loader']
       },
       {
         test: /\.sass$/,
-        use: ['vue-style-loader', 'css-loader', 'sass-loader?indentedSyntax'],
+        use: ['vue-style-loader', 'css-loader', 'sass-loader?indentedSyntax']
       },
       {
         test: /\.vue$/,
@@ -32,28 +32,28 @@ var config = {
             sass: [
               'vue-style-loader',
               'css-loader',
-              'sass-loader?indentedSyntax',
-            ],
-          },
+              'sass-loader?indentedSyntax'
+            ]
+          }
           // other vue-loader options go here
-        },
+        }
       },
       {
         test: /\.js$/,
         loader: 'babel-loader',
-        exclude: /node_modules/,
+        exclude: /node_modules/
       },
       {
         test: /\.(png|jpg|gif|svg)$/,
         loader: 'file-loader',
         options: {
-          name: '[name].[ext]?[hash]',
-        },
-      },
-    ],
+          name: '[name].[ext]?[hash]'
+        }
+      }
+    ]
   },
   externals: {
-    vue: 'vue',
+    vue: 'vue'
   },
   plugins: [
     new webpack.optimize.UglifyJsPlugin({
@@ -61,28 +61,28 @@ var config = {
       sourceMap: false,
       mangle: true,
       compress: {
-        warnings: false,
-      },
-    }),
-  ],
-};
+        warnings: false
+      }
+    })
+  ]
+}
 
 module.exports = [
   merge(config, {
-    entry: path.resolve(__dirname + '/src/index.js'),
+    entry: path.resolve(`${__dirname}/src/index.js`),
     output: {
       filename: 'i-dropdown.min.js',
       libraryTarget: 'window',
-      library: 'iDropdown',
-    },
+      library: 'iDropdown'
+    }
   }),
   merge(config, {
-    entry: path.resolve(__dirname + '/src/iDropdown.vue'),
+    entry: path.resolve(`${__dirname}/src/iDropdown.vue`),
     output: {
       filename: 'i-dropdown.js',
       libraryTarget: 'umd',
       library: 'i-dropdown',
-      umdNamedDefine: true,
-    },
-  }),
-];
+      umdNamedDefine: true
+    }
+  })
+]

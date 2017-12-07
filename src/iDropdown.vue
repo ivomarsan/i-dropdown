@@ -1,13 +1,15 @@
 <template>
-  <div class="dropdown">
-    <div ref="toggle" role="button" @mousedown.prevent="openDropdown" :class="{inline}">
+  <div class="i-dropdown" :class="{disabled}">
+    <div ref="toggle" role="button" @mousedown.prevent="openDropdown" :class="{inline, disabled}" :style="{style}">
       <input value="1" type="hidden" v-model="model">
       <span ref="selected">
         {{ getLabel(mutableValue) }}
       </span>
 
       <slot name="icon">
-        <i role="presentation" class="i-arrow_drop_down"></i>
+        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 768 768">
+          <path :style="{ 'fill': isColor }" d="M223.5 319.5h321l-160.5 160.5z"></path>
+        </svg>
       </slot>
     </div>
     <!-- <input ref="search" v-model="search" @keydown.delete="maybeDeleteValue" @keyup.esc="onEscape" @keydown.up.prevent="typeAheadUp"
@@ -21,7 +23,7 @@
 
 
     <transition name="fade">
-      <section v-show="dropdownOpen">
+      <section v-show="dropdownOpen" :style="style">
         <!-- <input ref="search" v-model="search" @keydown.delete="maybeDeleteValue" @keyup.esc="onEscape" @keydown.up.prevent="typeAheadUp"
           @keydown.down.prevent="typeAheadDown" @keydown.enter.prevent="typeAheadSelect" @blur="onSearchBlur" @focus="onSearchFocus"
           type="search" class="form-control" :disabled="disabled" :placeholder="searchPlaceholder" :tabindex="tabindex" :readonly="!searchable"
@@ -30,7 +32,7 @@
 
         <ul :style="{ 'max-height': maxHeight, 'margin': hideResults || !filter ? '0' : '0 0 0.75rem' }">
           <li v-for="(option, index) in filteredOptions" :key="index" :class="{ selected: isOptionSelected(option) }">
-            <a @mousedown.prevent="select(option)">
+            <a @mousedown.prevent="select(option)" :style="{ 'color': isColor }">
               <slot name="option" v-bind="option">
                 {{ getLabel(option) }}
               </slot>
@@ -72,69 +74,69 @@ export default {
   }),
 
   /**
-   * Clone props into mutable values,
-   * attach any event listeners.
-   */
+     * Clone props into mutable values,
+     * attach any event listeners.
+     */
   created() {
     this.mutableValue = this.value || this.initial;
     this.mutableOptions = this.options.slice(0);
   },
   watch: {
     /**
-     * When the value prop changes, update
-     * the internal mutableValue.
-     * @param  {mixed} val
-     * @return {void}
-     */
+       * When the value prop changes, update
+       * the internal mutableValue.
+       * @param  {mixed} val
+       * @return {void}
+       */
     value(val) {
       this.mutableValue = val;
     },
   },
   props: {
     /**
-     * Contains the currently selected value. Very similar to a
-     * `value` attribute on an <input>.
-     * @type {Object||String||null}
-     */
+       * Contains the currently selected value. Very similar to a
+       * `value` attribute on an <input>.
+       * @type {Object||String||null}
+       */
     value: {
       default: null,
     },
 
     /**
-     * Initial value showing on `i-dropdown`
-     * @type {String}
-     */
+       * Initial value showing on `i-dropdown`
+       * @type {String}
+       */
     initial: {
       type: String,
       default: 'i-dropdown',
     },
 
     /**
-     * Equivalent to the `placeholder` attribute on an `<input>`.
-     * Used in filter
-     * @type {String}
-     */
+       * Equivalent to the `placeholder` attribute on an `<input>`.
+       * Used in filter
+       * @type {String}
+       */
     placeholder: {
       type: String,
       default: 'Type your query',
     },
 
     /**
-     * Alternative message to show when has no matching on filter
-     * @type {String}
-     */
+       * Alternative message to show when has no matching on filter
+       * @type {String}
+       */
     noMatching: {
       type: String,
       default: 'Sorry, no matching options.',
     },
 
     /**
-     * An array of strings or objects to be used as dropdown choices.
-     * If you are using an array of objects, vue-select will look for
-     * a `label` key (ex. [{label: 'This is Foo', value: 'foo'}]). A
-     * custom label key can be set with the `label` prop.
-     * @type {Array}
-     */
+       * An array of strings or objects to be used as dropdown choices.
+       * If you are using an array of objects, vue-select will look for
+       * a `label` key (ex. [{label: 'This is Foo', value: 'foo'}]). A
+       * custom label key can be set with the `label` prop.
+       * @type {Array}
+       */
     options: {
       type: Array,
       default() {
@@ -143,77 +145,96 @@ export default {
     },
 
     /**
-     * Tells vue-select what key to use when generating option
-     * labels when each `option` is an object.
-     * @type {String}
-     */
+       * Tells vue-select what key to use when generating option
+       * labels when each `option` is an object.
+       * @type {String}
+       */
     label: {
       type: String,
       default: 'label',
     },
 
     /**
-     * Limit how much results will be avaliable in Dropdown
-     * @type {String}
-     */
+       * Limit how much results will be avaliable in Dropdown
+       * @type {String}
+       */
     limit: {
       type: String,
       default: '5',
     },
 
     /**
-     * When True a input search will be avaliable
-     * @type {Boolean}
-     */
+       * When True a input search will be avaliable
+       * @type {Boolean}
+       */
     filter: {
       type: Boolean,
       default: false,
     },
 
     /**
-     * Disable the entire component.
-     * @type {Boolean}
-     */
+       * Disable the entire component.
+       * @type {Boolean}
+       */
     disabled: {
       type: Boolean,
       default: false,
     },
 
     /**
-     * Hide results from Dropdown
-     * when filteredOptions is called
-     * @type {Boolean}
-     */
+       * Disable the entire component.
+       * @type {Boolean}
+       */
+    uppercase: {
+      type: Boolean,
+      default: false,
+    },
+
+    /**
+       * Hide results from Dropdown
+       * when filteredOptions is called
+       * @type {Boolean}
+       */
     hideResults: {
       type: Boolean,
       default: false,
     },
 
     /**
-     * Display element inline
-     * its mean, no borders
-     * @type {Boolean}
-     */
+       * Display element inline
+       * its mean, no borders
+       * @type {Boolean}
+       */
     inline: {
       type: Boolean,
       default: false,
     },
 
     /**
-     * Sets the max-height property on the dropdown list.
-     * @deprecated
-     * @type {String}
-     */
+       * Sets the max-height property on the dropdown list.
+       * @deprecated
+       * @type {String}
+       */
     maxHeight: {
       type: String,
       default: '200px',
     },
+
+    /**
+       * Integration with iComponents, personalize colors and tooltips.
+       * Also personalization is avaliable with `i-dropdown` class in CSS
+       */
+    isBackground: String,
+    isOutline: String,
+    isColor: String,
+    tooltip: String,
+    tooltipPos: String,
   },
   computed: {
     /**
-     * Return Selected value to v-model.
-     * @return {Object|String}
-     */
+       * Return Selected value to v-model.
+       * @return {Object|String}
+       */
     model: {
       get() {
         return this.mutableValue;
@@ -224,13 +245,13 @@ export default {
     },
 
     /**
-     * The currently displayed options, filtered
-     * by the search elements value. If tagging
-     * true, the search text will be prepended
-     * if it doesn't already exist.
-     *
-     * @return {array}
-     */
+       * The currently displayed options, filtered
+       * by the search elements value. If tagging
+       * true, the search text will be prepended
+       * if it doesn't already exist.
+       *
+       * @return {array}
+       */
     filteredOptions() {
       let options = this.mutableOptions.filter(option => {
         if (typeof option === 'object' && option.hasOwnProperty(this.label)) {
@@ -253,13 +274,22 @@ export default {
       });
       return options.slice(0, +this.limit);
     },
+
+    style() {
+      return {
+        'background-color': this.isBackground,
+        'text-transform': this.uppercase ? 'uppercase' : '',
+        'border-color': this.isOutline,
+        color: this.isColor,
+      };
+    },
   },
   methods: {
     /**
-     * Toggle the visibility of the dropdown menu.
-     * @param  {Event} e
-     * @return {void}
-     */
+       * Toggle the visibility of the dropdown menu.
+       * @param  {Event} e
+       * @return {void}
+       */
     toggleDropdown(e) {
       if (
         // e.target === this.$refs.selected ||
@@ -285,10 +315,10 @@ export default {
     },
 
     /**
-     * Open Dropdown
-     * @param  {Event} e
-     * @return {void}
-     */
+       * Open Dropdown
+       * @param  {Event} e
+       * @return {void}
+       */
     openDropdown(e) {
       this.search && (this.search = '');
       this.$refs.search && this.$refs.search.focus();
@@ -297,31 +327,31 @@ export default {
     },
 
     /**
-     * Close Dropdown
-     * @param  {Event} e
-     * @return {void}
-     */
+       * Close Dropdown
+       * @param  {Event} e
+       * @return {void}
+       */
     closeDropdown() {
       this.dropdownOpen = false;
     },
 
     /**
-     * Select a given option.
-     * @param  {Object|String} option
-     * @return {void}
-     */
+       * Select a given option.
+       * @param  {Object|String} option
+       * @return {void}
+       */
     select(option) {
       this.model = option;
       this.closeDropdown();
     },
 
     /**
-     * Callback to generate the label text. If {option}
-     * is an object, returns option[this.label] by default.
-     * @type {String}
-     * @param  {Object || String} option
-     * @return {String}
-     */
+       * Callback to generate the label text. If {option}
+       * is an object, returns option[this.label] by default.
+       * @type {String}
+       * @param  {Object || String} option
+       * @return {String}
+       */
     getLabel(option) {
       if (typeof option === 'object' && this.label && !!option[this.label])
         return option[this.label];
