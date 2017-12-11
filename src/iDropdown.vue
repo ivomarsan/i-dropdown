@@ -1,29 +1,27 @@
 <template>
   <div class="i-dropdown" :class="{disabled}">
+    <i-tooltip v-if="isTooltip" :is-position="isPosition">{{ isTooltip }}</i-tooltip>
     <div ref="toggle" role="button" @mousedown.prevent="openDropdown" :class="{inline, disabled}" :style="{style}">
       <input value="1" type="hidden" v-model="model">
       <span ref="selected">
         {{ getLabel(mutableValue) }}
       </span>
 
-      <slot name="icon">
-        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 768 768">
-          <path :style="{ 'fill': isColor }" d="M223.5 319.5h321l-160.5 160.5z"></path>
-        </svg>
-      </slot>
+      <i ref="icon" class="icon">
+        <slot name="icon">
+          <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 768 768">
+            <path :style="{ 'fill': isColor }" d="m 438.85712,329.14286 h 329.1429 l -164.5714,164.57143 z"></path>
+          </svg>
+        </slot>
+      </i>
     </div>
-    <!-- <input ref="search" v-model="search" @keydown.delete="maybeDeleteValue" @keyup.esc="onEscape" @keydown.up.prevent="typeAheadUp"
-        @keydown.down.prevent="typeAheadDown" @keydown.enter.prevent="typeAheadSelect" @blur="onSearchBlur" @focus="onSearchFocus"
-        type="search" class="form-control" :disabled="disabled" :placeholder="searchPlaceholder" :tabindex="tabindex" :readonly="!searchable"
-        :style="{ width: isValueEmpty ? '100%' : 'auto' }" :id="inputId" aria-label="Search for option"> -->
 
     <!-- <slot name="spinner">
-        <div class="spinner" v-show="mutableLoading">Loading...</div>
-      </slot> -->
-
+      <div class="spinner" v-show="mutableLoading">Loading...</div>
+    </slot> -->
 
     <transition name="fade">
-      <section v-show="dropdownOpen" :style="style">
+      <section v-show="dropdownOpen" :style="style" ref="dropdown">
         <!-- <input ref="search" v-model="search" @keydown.delete="maybeDeleteValue" @keyup.esc="onEscape" @keydown.up.prevent="typeAheadUp"
           @keydown.down.prevent="typeAheadDown" @keydown.enter.prevent="typeAheadSelect" @blur="onSearchBlur" @focus="onSearchFocus"
           type="search" class="form-control" :disabled="disabled" :placeholder="searchPlaceholder" :tabindex="tabindex" :readonly="!searchable"
@@ -42,32 +40,26 @@
             <slot name="no-options">{{ noMatching }}</slot>
           </li>
         </ul>
-        <slot name="total-results" v-if="filter && !hideResults && filteredOptions.length < mutableOptions.length">
-          <span class="total-results">Showing {{ filteredOptions.length }} from {{ mutableOptions.length }} results</span>
-        </slot>
+        <aside ref="results" v-if="filter && !hideResults && filteredOptions.length < mutableOptions.length">
+          <slot name="total-results">
+            <span class="total-results">Showing {{ filteredOptions.length }} from {{ mutableOptions.length }} results</span>
+          </slot>
+        </aside>
       </section>
     </transition>
-    <!-- <div class="menu ui transition" :class="{hidden: !showDropdown}">
-      <div class="item active" data-value="1">
-        <a @mousedown.prevent="select('Male')">
-          Male
-        </a>
-      </div>
-      <div class="item" data-value="0">
-        <a @mousedown.prevent="select('Female')">
-          Female
-        </a>
-      </div>
-    </div> -->
   </div>
 </template>
 
 <style lang="scss" src="./iDropdown.scss" scoped></style>
 
 <script>
+import iTooltip from 'i-tooltip';
+
 export default {
   name: 'i-dropdown',
-  components: {},
+  components: {
+    iTooltip,
+  },
   data: () => ({
     search: '',
     dropdownOpen: false,
@@ -145,7 +137,7 @@ export default {
     },
 
     /**
-       * Tells vue-select what key to use when generating option
+       * Tells what key to use when generating option
        * labels when each `option` is an object.
        * @type {String}
        */
@@ -164,7 +156,7 @@ export default {
     },
 
     /**
-       * When True a input search will be avaliable
+       * When True a input search will be avaliable.
        * @type {Boolean}
        */
     filter: {
@@ -182,7 +174,7 @@ export default {
     },
 
     /**
-       * Disable the entire component.
+       * Convert All Exibed Text to UPPERCASE.
        * @type {Boolean}
        */
     uppercase: {
@@ -227,8 +219,8 @@ export default {
     isBackground: String,
     isOutline: String,
     isColor: String,
-    tooltip: String,
-    tooltipPos: String,
+    isTooltip: String,
+    isPosition: String,
   },
   computed: {
     /**
@@ -270,7 +262,12 @@ export default {
               .label}" does not exist in options object.\nhttp://sagalbot.github.io/vue-select/#ex-labels`,
           );
         }
-        return option.toLowerCase().indexOf(this.search.toLowerCase()) > -1;
+        return (
+          option
+            .toString()
+            .toLowerCase()
+            .indexOf(this.search.toLowerCase()) > -1
+        );
       });
       return options.slice(0, +this.limit);
     },
@@ -287,31 +284,21 @@ export default {
   methods: {
     /**
        * Toggle the visibility of the dropdown menu.
+       * Close dropdown when clicked outside.
        * @param  {Event} e
        * @return {void}
        */
     toggleDropdown(e) {
-      if (
-        // e.target === this.$refs.selected ||
-        e.target === this.$refs.toggle
-        // e.target === this.$refs.icon ||
-        // e.target === this.$el
-      ) {
-        this.dropdownOpen = !this.dropdownOpen;
-        console.log(this.$refs.search);
-        if (this.$refs.search) {
-          this.$refs.search.focus();
-        }
+      let isClickOutside =
+        e.target != this.$refs.dropdown &&
+        e.target != this.$refs.selected &&
+        e.target != this.$refs.results &&
+        e.target != this.$refs.toggle &&
+        e.target != this.$refs.search &&
+        e.target != this.$refs.icon &&
+        e.target != this.$el;
 
-        if (this.open) {
-          // this.$refs.search.blur(); // dropdown will close on blur
-        } else {
-          if (!this.disabled) {
-            this.open = true;
-            // this.$refs.search.focus();
-          }
-        }
-      }
+      isClickOutside && this.closeDropdown();
     },
 
     /**
@@ -324,6 +311,13 @@ export default {
       this.$refs.search && this.$refs.search.focus();
 
       this.dropdownOpen = true;
+      this.$nextTick(() => {
+        this.container = document.querySelectorAll('body')[0];
+        if (this.container) {
+          // this.$el.addEventListener('mouseleave', this.closeDropdown);
+          this.container.addEventListener('click', this.toggleDropdown);
+        }
+      });
     },
 
     /**
@@ -333,6 +327,7 @@ export default {
        */
     closeDropdown() {
       this.dropdownOpen = false;
+      this.container.removeEventListener('click', this.toggleDropdown, false);
     },
 
     /**

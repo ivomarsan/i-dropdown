@@ -24,7 +24,7 @@
 ---
 
 <a href="https://www.npmjs.com/package/i-dropdown">`i-dropdown`</a> is a
-simplistic button forked from
+simplistic dropdown forked from
 <a href="https://www.npmjs.com/package/vue-material">`vue-material`</a> inspired
 in <a href="http://material.google.com" target="_blank">Material Design</a>
 specs.
@@ -41,27 +41,25 @@ Import or require in your code:
 
 ```javascript
 import Vue from 'vue';
-import iButton from 'i-dropdown';
+import iDropdown from 'i-dropdown';
 
 // OR
 
 var Vue = require('vue');
-var iButton = require('i-dropdown');
+var iDropdown = require('i-dropdown');
 ```
-
-## Installation
 
 ### Module
 
 ```javascript
-import iButton from 'i-dropdown';
+import iDropdown from 'i-dropdown';
 
 // ...
 
 export default {
   // ...
   components: {
-    'my-awesome-button': iButton,
+    'my-awesome-dropdown': iDropdown,
   },
   // ...
 };
@@ -73,7 +71,7 @@ export default {
 <script src="https://cdn.jsdelivr.net/npm/vue"></script>
 <script src="dist/i-dropdown.min.js"></script>
 <script>
-Vue.use(iButton);
+Vue.use(iDropdown);
 
 new Vue({
   el: '#app'
@@ -87,124 +85,234 @@ It's very useful to use `i-dropdown` you only need to register then :smile:
 seems like with
 
 ```html
-<i-dropdown class="is-background-red">
-  🗑
+<i-dropdown v-model="dropdown" :options="['A', 'B', 'C']">
+
 </i-dropdown>
 ```
 
-You also can use some properties like
-
-#### A Link _(href & target & rel)_
+It's easier to use, you only need to pass an `array []` with `Number` or
+`String` type. When you pass an `Object` you need some attention to default key
+`label`. Some like this:
 
 ```html
-<i-dropdown class="is-background-red"
-:href="'http://ivomarsan.com'"
-:target="'_blank'"
-:rel="'noopener'">
-  🗑
+<i-dropdown v-model="dropdown" :options="options">
+
 </i-dropdown>
 ```
 
-#### Button _(disabled & type)_
+```javascript
+import iDropdown from 'i-dropdown';
+
+export default {
+  components: {
+    iDropdown,
+  },
+  data: () => ({
+    dropdown: '',
+    options: [
+      { label: 'Option 1', hide: `you'll don't see this text` },
+      { label: 'Option 2', hide: `you'll don't see this text` },
+      { label: 'Option 3', hide: `you'll don't see this text` },
+      { label: 'Option 4', hide: `you'll don't see this text` },
+    ],
+  }),
+};
+```
+
+But you can personalize this with some properties like
+
+#### Options
+
+> @type {Array}
+
+Options to show on dropdown. You probably need to use a `v-model` to receive
+this data information.
 
 ```html
-<i-dropdown class="is-background-red"
-:disabled="isDisabled"
-:type="'button'">
-  🗑
+<i-dropdown v-model="myModel" :options="['A', 'B', 'C']">
 </i-dropdown>
 ```
 
-#### With a Tooltip
+#### Label
+
+> @type {String}
+
+Imagine now, you have `myOptions` that is an Array but you haven't a key
+property like `label`. Are you thinking to use an `array.map()`? No way! You
+should to use `label property` passing the key name that you want use instead.
 
 ```html
-<i-dropdown class="is-outline-blue"
-tooltip="This is a Tooltip"
-tooltip-pos="top">
-  🗑
+<i-dropdown v-model="myModel" :options="myOptions" label="name">
 </i-dropdown>
+```
+
+#### Initial value
+
+> @type {String}
+
+Will be impressed instead _i-dropdown_
+
+```html
+<i-dropdown initial="Hi I'm Goku">
+</i-dropdown>
+```
+
+#### Placeholder
+
+> @type {String}
+
+Add a placeholder on filter when avaliable
+
+```html
+<i-dropdown placeholder="Search here">
+</i-dropdown>
+```
+
+#### No Matching
+
+> @type {String}
+
+Alternative message to show when has no matching on filter
+
+```html
+<i-dropdown no-matching="Sorry :/">
+</i-dropdown>
+```
+
+#### Limit
+
+> @type {String}
+
+Limit how much results will be avaliable in Dropdown. Default are 5 results
+
+```html
+<i-dropdown limit="8">
+</i-dropdown>
+```
+
+#### Filter
+
+> @type {Boolean}
+
+When True a input search will be avaliable
+
+```html
+<i-dropdown filter>
+</i-dropdown>
+```
+
+#### Disabled
+
+> @type {Boolean}
+
+Disable the entire component
+
+```html
+<i-dropdown disabled>
+</i-dropdown>
+```
+
+#### Hide Results
+
+> @type {Boolean}
+
+Hide results from Dropdown when filter is called
+
+```html
+<i-dropdown hide-results>
+</i-dropdown>
+```
+
+#### Inline
+
+> @type {Boolean}
+
+Display element inline. Its mean, no borders
+
+```html
+<i-dropdown inline>
+</i-dropdown>
+```
+
+#### Max Height
+
+> @type {String}
+
+Sets the max-height property on the dropdown list. Default is 200px
+
+```html
+<i-dropdown max-height="500px">
+</i-dropdown>
+```
+
+## Personalization
+
+You can personalize your `<i-dropdown>` with class `i-dropdown` or through some
+properties.
+
+#### Uppercase
+
+> @type {Boolean}
+
+Convert All Exibed Text to UPPERCASE
+
+```html
+<i-dropdown uppercase>
+</i-dropdown>
+```
+
+#### isBackground
+
+> @type {String}
+
+Paint Background Color
+
+```html
+<i-dropdown is-background="#ff0"></i-dropdown>
+```
+
+#### isOutline
+
+> @type {String}
+
+Paint Border Color
+
+```html
+<i-dropdown is-outline="#f0f"></i-dropdown>
+```
+
+#### isColor
+
+> @type {String}
+
+Paint Text Color
+
+```html
+<i-dropdown is-color="#00f"></i-dropdown>
+```
+
+#### isTooltip
+
+> @type {String}
+
+Give us a Tooltip
+
+```html
+<i-dropdown is-tooltip="This is a Tooltip"></i-dropdown>
 ```
 
 This example will open a `Tooltip` with a message to `top`. See above all
-tooltips positions (`toolpos`) avaliable:
+tooltips positions (`is-position`) avaliable:
 
 * `top`
 * `left`
 * `right`
 * `bottom`
 
-`toolpos` its a _String_ and has by default value: `top`
-
-## Personalization
-
-You can personalize your `<i-dropdown>` with class `i-dropdown` or pre-defined
-classes to change background, color or outline (_list bellow_) or through some
-properties.
-
-`uppercase` (_Boolean_) if true, text will be UPPERCASED.
-
 ```html
-<i-dropdown uppercase>🗑</i-dropdown>
+<i-dropdown is-tooltip="This is a Tooltip" is-position="right"></i-dropdown>
 ```
-
-`is-color` (_String: Hex_) to define a color to button.
-
-```html
-<i-dropdown is-color="#d43f3a">🗑</i-dropdown>
-```
-
-`is-outline` (_String: Hex_) to draw a custom border.
-
-```html
-<i-dropdown is-outline="#d43f3a">🗑</i-dropdown>
-```
-
-`is-background` (_String: Hex_) to get a background color.
-
-```html
-<i-dropdown is-background="#d43f3a">🗑</i-dropdown>
-```
-
-### Colors
-
-Actually we have 10 colors, are:
-
-* <img src="https://img.shields.io/badge/red-                    -d43f3a.svg?style=for-the-badge" alt="red">
-* <img src="https://img.shields.io/badge/pink-                    -ff067c.svg?style=for-the-badge" alt="pink">
-* <img src="https://img.shields.io/badge/blue-                    -0488bb.svg?style=for-the-badge" alt="blue">
-* <img src="https://img.shields.io/badge/gray-                    -ada8a5.svg?style=for-the-badge" alt="gray">
-* <img src="https://img.shields.io/badge/black-                    -000000.svg?style=for-the-badge" alt="black">
-* <img src="https://img.shields.io/badge/white-                    -ffffff.svg?style=for-the-badge" alt="white">
-* <img src="https://img.shields.io/badge/green-                    -4cae4c.svg?style=for-the-badge" alt="green">
-* <img src="https://img.shields.io/badge/purple-                    -9400c8.svg?style=for-the-badge" alt="purple">
-* <img src="https://img.shields.io/badge/yellow-                    -ffdf00.svg?style=for-the-badge" alt="yellow">
-* <img src="https://img.shields.io/badge/orange-                    -ff9e00.svg?style=for-the-badge" alt="orange">
-
-### Classes
-
-Classes are formed by `prefix-type-color`, examples:
-
-`.is-color-green`
-
-```html
-<i-dropdown class="is-color-green">🗑</i-dropdown>
-```
-
-`.is-outline-green`
-
-```html
-<i-dropdown class="is-outline-green">🗑</i-dropdown>
-```
-
-`.is-background-green`
-
-```html
-<i-dropdown class="is-background-green">🗑</i-dropdown>
-```
-
-> See more in [i-colors](https://www.npmjs.com/package/i-colors) and examples.
-> It's easier :smile:
 
 ## Demo
 
-[JSFiddle](https://jsfiddle.net/r5yf1qtv/)
+[JSFiddle](https://jsfiddle.net/x9f7j6zt/)
