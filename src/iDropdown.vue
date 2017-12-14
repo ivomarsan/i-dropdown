@@ -3,7 +3,7 @@
     <i-tooltip v-if="isTooltip" :is-position="isPosition">{{ isTooltip }}</i-tooltip>
     <div ref="toggle" role="button" @mousedown.prevent="openDropdown" :class="{inline, disabled}" :style="{style}">
       <input value="1" type="hidden" v-model="model">
-      <span ref="selected">
+      <span ref="selected" :style="{ 'color': `${isColor} !important` }">
         {{ getLabel(mutableValue) }}
       </span>
 
