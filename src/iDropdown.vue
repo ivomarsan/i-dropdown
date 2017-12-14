@@ -63,6 +63,7 @@ export default {
   data: () => ({
     search: '',
     dropdownOpen: false,
+    mutableOptions: [],
   }),
 
   /**
@@ -75,13 +76,25 @@ export default {
   },
   watch: {
     /**
-       * When the value prop changes, update
-       * the internal mutableValue.
-       * @param  {mixed} val
-       * @return {void}
-       */
+     * When the value prop changes, update
+     * the internal mutableValue.
+     * @param  {mixed} val
+     * @return {void}
+     */
     value(val) {
       this.mutableValue = val;
+    },
+
+    /**
+     * Update options list
+     * when the father change
+     * the value passed
+     * into this property
+     * @param  {mixed} val
+     * @return {void}
+     */
+    options(val) {
+      this.mutableOptions = val;
     },
   },
   props: {
