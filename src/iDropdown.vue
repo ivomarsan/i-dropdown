@@ -160,6 +160,15 @@ export default {
     },
 
     /**
+     * Return to v-model only a string instead an object.
+     * Enter with key name and return this value
+     * @type {String}
+     */
+    return: {
+      type: String,
+    },
+
+    /**
        * Limit how much results will be avaliable in Dropdown
        * @type {String}
        */
@@ -245,6 +254,7 @@ export default {
         return this.mutableValue;
       },
       set(v) {
+        if (this.return) return this.$emit('input', v[this.return]);
         this.$emit('input', v);
       },
     },

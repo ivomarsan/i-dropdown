@@ -179,6 +179,17 @@ Alternative message to show when has no matching on filter
 </i-dropdown>
 ```
 
+#### Return
+
+> @type {String}
+
+Return to `v-model` only a single value instead an object. Enter with key name and get this value
+
+```html
+<i-dropdown return="id">
+</i-dropdown>
+```
+
 #### Limit
 
 > @type {String}
