@@ -82,6 +82,10 @@ export default {
      * @return {void}
      */
     value(val) {
+      if (this.return) {
+        let index = this.mutableOptions.findIndex(i => i[this.return] == val);
+        return (this.mutableValue = this.mutableOptions[index]);
+      }
       this.mutableValue = val;
     },
 
