@@ -71,7 +71,9 @@ export default {
      * attach any event listeners.
      */
   created() {
-    this.mutableValue = this.value || this.initial;
+    const initialValueWithReturn =
+      this.return && this.options.find(o => o[this.return] === this.value);
+    this.mutableValue = this.value || initialValueWithReturn || this.initial;
     this.mutableOptions = this.options.slice(0);
   },
   watch: {
