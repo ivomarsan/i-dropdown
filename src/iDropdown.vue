@@ -73,7 +73,7 @@ export default {
   created() {
     const initialValueWithReturn =
       this.return && this.options.find(o => o[this.return] === this.value);
-    this.mutableValue = this.value || initialValueWithReturn || this.initial;
+    this.mutableValue = initialValueWithReturn || this.initial;
     this.mutableOptions = this.options.slice(0);
   },
   watch: {
