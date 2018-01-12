@@ -78,11 +78,11 @@ export default {
   },
   watch: {
     /**
-     * When the value prop changes, update
-     * the internal mutableValue.
-     * @param  {mixed} val
-     * @return {void}
-     */
+       * When the value prop changes, update
+       * the internal mutableValue.
+       * @param  {mixed} val
+       * @return {void}
+       */
     value(val) {
       if (this.return) {
         let index = this.mutableOptions.findIndex(i => i[this.return] == val);
@@ -92,15 +92,24 @@ export default {
     },
 
     /**
-     * Update options list
-     * when the father change
-     * the value passed
-     * into this property
-     * @param  {mixed} val
-     * @return {void}
-     */
+       * Update options list
+       * when the father change
+       * the value passed
+       * into this property
+       * @param  {mixed} val
+       * @return {void}
+       */
     options(val) {
       this.mutableOptions = val;
+    },
+
+    /**
+       * Make initial reactive
+       * @param  {mixed} val
+       * @return {void}
+       */
+    initial(val) {
+      this.mutableValue = val;
     },
   },
   props: {
@@ -166,10 +175,10 @@ export default {
     },
 
     /**
-     * Return to v-model only a string instead an object.
-     * Enter with key name and return this value
-     * @type {String}
-     */
+       * Return to v-model only a string instead an object.
+       * Enter with key name and return this value
+       * @type {String}
+       */
     return: {
       type: String,
     },
