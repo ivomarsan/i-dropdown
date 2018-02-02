@@ -2,7 +2,7 @@ $border-radius: 0.3rem;
 $padding: 0.75rem;
 
 .i-dropdown {
-  min-width: 6rem;
+  min-width: 5rem;
   cursor: pointer;
   position: relative;
   display: inline-block;
@@ -15,6 +15,7 @@ $padding: 0.75rem;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+  margin-right: 2rem;
 
   div {
     padding: $padding 1rem;
@@ -23,9 +24,11 @@ $padding: 0.75rem;
     -webkit-transition: border-radius 0.1s ease, width 0.2s ease;
     -moz-transition: border-radius 0.1s ease, width 0.2s ease;
     transition: border-radius 0.1s ease, width 0.2s ease;
+    display: flex;
 
     &.inline {
       border: none;
+      padding: 0;
     }
 
     &.disabled {
@@ -42,13 +45,14 @@ $padding: 0.75rem;
 
     i.icon {
       pointer-events: none;
+      display: flex;
+      align-items: center;
     }
   }
 
   section {
     position: absolute;
-    top: 3rem;
-    // left: -1px;
+    top: 2rem;
     z-index: 1000;
     min-width: calc(100% + 1px);
     min-height: calc(100% + 1px);
@@ -59,6 +63,11 @@ $padding: 0.75rem;
     -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
     padding: $padding;
+    left: 6px;
+
+    &.filter {
+      min-width: 15rem;
+    }
 
     input {
       border: 1px solid rgba(0, 0, 0, 0.15);

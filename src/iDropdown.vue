@@ -21,7 +21,7 @@
     </slot> -->
 
     <transition name="fade">
-      <section v-show="dropdownOpen" :style="style" ref="dropdown">
+      <section v-show="dropdownOpen" :style="style" ref="dropdown" :class="{filter}">
         <!-- <input ref="search" v-model="search" @keydown.delete="maybeDeleteValue" @keyup.esc="onEscape" @keydown.up.prevent="typeAheadUp"
           @keydown.down.prevent="typeAheadDown" @keydown.enter.prevent="typeAheadSelect" @blur="onSearchBlur" @focus="onSearchFocus"
           type="search" class="form-control" :disabled="disabled" :placeholder="searchPlaceholder" :tabindex="tabindex" :readonly="!searchable"
