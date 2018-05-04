@@ -223,6 +223,17 @@ Disable the entire component
 </i-dropdown>
 ```
 
+#### Clear
+
+> @type {String}
+
+Text used to reset model
+
+```html
+<i-dropdown clear="Reset">
+</i-dropdown>
+```
+
 #### Hide Results
 
 > @type {Boolean}
@@ -326,4 +337,4 @@ tooltips positions (`is-position`) avaliable:
 
 ## Demo
 
-[JSFiddle](https://jsfiddle.net/b8ewwg6j/)
+[JSFiddle](https://jsfiddle.net/r71a8gwm/)

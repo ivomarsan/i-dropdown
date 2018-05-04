@@ -66,6 +66,7 @@ export default {
     search: '',
     dropdownOpen: false,
     mutableOptions: [],
+    clearObject: {},
   }),
 
   /**
@@ -86,10 +87,6 @@ export default {
      * @return {void}
      */
     value(val) {
-      if (this.return) {
-        let index = this.mutableOptions.findIndex(i => i[this.return] == val);
-        return (this.mutableValue = this.mutableOptions[index]);
-      }
       this.mutableValue = val;
     },
 
@@ -213,6 +210,15 @@ export default {
     },
 
     /**
+     * Text used to reset model
+     * @type {String}
+     */
+    clear: {
+      type: String,
+      // default: '',
+    },
+
+    /**
      * Convert All Exibed Text to UPPERCASE.
      * @type {Boolean}
      */
@@ -248,7 +254,7 @@ export default {
      */
     maxHeight: {
       type: String,
-      default: '200px',
+      default: '',
     },
 
     /**
@@ -310,6 +316,12 @@ export default {
             .indexOf(this.search.toLowerCase()) > -1
         );
       });
+      if (typeof this.clear === 'string') {
+        this.clearObject[this.label] = this.clear.length
+          ? this.clear
+          : this.initial;
+        options.unshift(this.clearObject);
+      }
       return options.slice(0, +this.limit);
     },
 
@@ -377,6 +389,8 @@ export default {
      * @return {void}
      */
     select(option) {
+      console.log('select', option, option[this.label]);
+
       this.model = option;
       this.closeDropdown();
     },
@@ -389,9 +403,27 @@ export default {
      * @return {String}
      */
     getLabel(option) {
-      if (typeof option === 'object' && this.label && !!option[this.label])
-        return option[this.label];
-      return option;
+      // Workarround to clear property work!
+      if (!option) return this.clearObject[this.label];
+
+      if (this.return) {
+        if (typeof option === 'object' && this.label && !!option[this.label]) {
+          return option[this.label];
+        } else {
+          const label = this.filteredOptions.find(
+            i => i[this.return] == option,
+          );
+          if (label) {
+            return label[this.label];
+          } else {
+            return option;
+          }
+        }
+      } else {
+        if (typeof option === 'object' && this.label && !!option[this.label])
+          return option[this.label];
+        return option;
+      }
     },
 
     isOptionSelected(option) {
