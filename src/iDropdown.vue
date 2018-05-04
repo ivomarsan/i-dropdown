@@ -389,8 +389,6 @@ export default {
      * @return {void}
      */
     select(option) {
-      console.log('select', option, option[this.label]);
-
       this.model = option;
       this.closeDropdown();
     },
