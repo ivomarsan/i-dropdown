@@ -337,4 +337,4 @@ tooltips positions (`is-position`) avaliable:
 
 ## Demo
 
-[JSFiddle](https://jsfiddle.net/g6nd8uek/)
+[JSFiddle](https://jsfiddle.net/6qb04j11/)

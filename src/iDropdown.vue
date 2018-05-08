@@ -108,7 +108,8 @@ export default {
 
       const initialValueWithReturn =
         this.return && val.find(o => o[this.return] === this.value);
-      this.mutableValue = initialValueWithReturn || this.value || this.model;
+      this.mutableValue =
+        initialValueWithReturn || this.getLabel(this.value) || this.model;
     },
 
     /**
@@ -419,9 +420,7 @@ export default {
         if (typeof option === 'object' && this.label && !!option[this.label]) {
           return option[this.label];
         } else {
-          const label = this.filteredOptions.find(
-            i => i[this.return] == option,
-          );
+          const label = this.mutableOptions.find(i => i[this.return] == option);
           if (label) {
             return label[this.label];
           } else {
