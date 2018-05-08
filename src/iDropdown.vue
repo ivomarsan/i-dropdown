@@ -79,6 +79,7 @@ export default {
     this.mutableValue = initialValueWithReturn || this.initial;
     this.mutableOptions = this.options.slice(0);
   },
+
   watch: {
     /**
      * When the value prop changes, update
@@ -87,7 +88,11 @@ export default {
      * @return {void}
      */
     value(val) {
-      this.mutableValue = val;
+      // this.mutableValue = val;
+      const initialValueWithReturn =
+        this.return && this.options.find(o => o[this.return] === val);
+      this.mutableValue = initialValueWithReturn || val;
+      this.$forceUpdate();
     },
 
     /**
@@ -100,6 +105,10 @@ export default {
      */
     options(val) {
       this.mutableOptions = val;
+
+      const initialValueWithReturn =
+        this.return && val.find(o => o[this.return] === this.value);
+      this.mutableValue = initialValueWithReturn || this.value || this.model;
     },
 
     /**
@@ -111,6 +120,7 @@ export default {
       this.mutableValue = val;
     },
   },
+
   props: {
     /**
      * Contains the currently selected value. Very similar to a
@@ -267,6 +277,7 @@ export default {
     isTooltip: String,
     isPosition: String,
   },
+
   computed: {
     /**
      * Return Selected value to v-model.
@@ -304,9 +315,9 @@ export default {
           !option.hasOwnProperty(this.label)
         ) {
           return console.warn(
-            `[vue-select warn]: Label key "option.${
+            `[i-dropdown warn]: Label key "option.${
               this.label
-            }" does not exist in options object.\nhttp://sagalbot.github.io/vue-select/#ex-labels`,
+            }" does not exist in options object.\nhttps://www.npmjs.com/package/i-dropdown#label`,
           );
         }
         return (
