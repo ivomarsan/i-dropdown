@@ -1,6 +1,5 @@
 $border-radius: 0.3rem;
 $padding: 0.75rem;
-
 .i-dropdown {
   min-width: 5rem;
   cursor: pointer;
@@ -16,7 +15,6 @@ $padding: 0.75rem;
   -ms-user-select: none;
   user-select: none;
   margin-right: 2rem;
-
   div {
     padding: $padding 1rem;
     border: 1px solid rgba(0, 0, 0, 0.15);
@@ -25,34 +23,28 @@ $padding: 0.75rem;
     -moz-transition: border-radius 0.1s ease, width 0.2s ease;
     transition: border-radius 0.1s ease, width 0.2s ease;
     display: flex;
-
     &.inline {
       border: none;
       padding: 0;
     }
-
     &.disabled {
       // background-color: #eee;
       color: #ccc;
       fill: #ccc;
       pointer-events: none;
     }
-
     span {
       display: inline-flex;
       min-width: 2rem;
     }
-
     i.icon {
       pointer-events: none;
       display: flex;
       align-items: center;
     }
   }
-
   section {
     position: absolute;
-    top: 2rem;
     z-index: 1000;
     min-width: calc(100% + 1px);
     min-height: calc(100% + 1px);
@@ -64,34 +56,28 @@ $padding: 0.75rem;
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
     padding: $padding;
     left: 6px;
-
     &.filter {
       min-width: 15rem;
     }
-
     input {
       border: 1px solid rgba(0, 0, 0, 0.15);
       border-radius: $border-radius;
       margin: 0 0 $padding;
       transition: all 0.25s ease-in-out;
       opacity: 0.6;
-
       &:focus,
       &:active {
         opacity: 1;
       }
     }
-
     ul {
       padding: 0;
       margin: 0;
       text-align: left;
       list-style: none;
       overflow: auto;
-
       li {
         margin: 0;
-
         a {
           display: block;
           border-radius: $border-radius;
@@ -102,7 +88,6 @@ $padding: 0.75rem;
           color: #333;
           white-space: nowrap;
           text-decoration: none;
-
           &:hover {
             text-decoration: none;
             color: unset;
@@ -111,13 +96,11 @@ $padding: 0.75rem;
         }
       }
     }
-
     span.total-results {
       color: #aaa;
       font-size: 80%;
     }
   }
-
   &.disabled {
     cursor: not-allowed;
   }
@@ -127,6 +110,7 @@ $padding: 0.75rem;
 .fade-leave-active {
   transition: all 0.25s ease-in-out;
 }
+
 .fade-enter,
 .fade-leave-to {
   opacity: 0;

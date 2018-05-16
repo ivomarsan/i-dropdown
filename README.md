@@ -256,6 +256,39 @@ Display element inline. Its mean, no borders
 </i-dropdown>
 ```
 
+#### Prefix
+
+> @type {String}
+
+Display a Prefix in iDropdown
+
+```html
+<i-dropdown prefix="prefix">
+</i-dropdown>
+```
+
+#### Suffix
+
+> @type {String}
+
+Display a Suffix in iDropdown
+
+```html
+<i-dropdown suffix="suffix">
+</i-dropdown>
+```
+
+#### Open Top
+
+> @type {Boolean}
+
+Open iDropdown to Top
+
+```html
+<i-dropdown open-top>
+</i-dropdown>
+```
+
 #### Max Height
 
 > @type {String}
@@ -337,4 +370,4 @@ tooltips positions (`is-position`) avaliable:
 
 ## Demo
 
-[JSFiddle](https://jsfiddle.net/6qb04j11/)
+[JSFiddle](https://jsfiddle.net/7wzau7ms/)
